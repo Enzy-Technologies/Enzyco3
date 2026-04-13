@@ -1,7 +1,15 @@
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './app/App'
 
-  import { createRoot } from "react-dom/client";
-  import App from "./app/App.tsx";
-  import "./styles/index.css";
+// Import all styles
+import './styles/index.css'
+import './styles/fonts.css'
+import './styles/theme.css'
+import './styles/tailwind.css'
 
-  createRoot(document.getElementById("root")!).render(<App />);
-  
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+)

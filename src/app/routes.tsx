@@ -5,6 +5,8 @@ import { Features } from "./Features";
 import { Solutions } from "./Solutions";
 import { Resources } from "./Resources";
 import { About } from "./About";
+import { Terms } from "./Terms";
+import { Privacy } from "./Privacy";
 
 export const router = createBrowserRouter([
   {
@@ -16,6 +18,8 @@ export const router = createBrowserRouter([
       { path: "solutions", Component: Solutions },
       { path: "resources", Component: Resources },
       { path: "about", Component: About },
+      { path: "terms", Component: Terms },
+      { path: "privacy", Component: Privacy },
       { path: "*", Component: Home }, // Fallback to Home
     ],
   },
