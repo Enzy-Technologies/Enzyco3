@@ -1,0 +1,227 @@
+import React, { useState, useEffect } from "react";
+import { ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { useLocation } from "react-router";
+import { useTheme } from "./components/ThemeProvider";
+import { SEO } from "./components/SEO";
+import { SEO_CONFIG } from "./utils/seo-config";
+
+const SOLUTIONS_DATA = [
+  {
+    id: 'sales-teams',
+    role: 'Sales Teams',
+    tagline: 'Empower your sales teams with custom-built tools and insights.',
+    title: 'Overcoming Sales Challenges',
+    description: 'Sales teams face several challenges that can hinder their success, including high sales rep turnover, low lead conversion rates, and inefficient time management—all of which Enzy aims to solve.',
+    stats: [
+      { value: '30%', label: 'Average industry turnover rate of 30% annually' },
+      { value: '5%', label: 'Just 5% of initial leads convert to a sale' },
+      { value: '35%', label: "Only 35% of sales reps' time is spent actively selling" }
+    ]
+  },
+  {
+    id: 'operations',
+    role: 'Operations',
+    tagline: 'Streamline daily processes and optimize resource management.',
+    title: 'Overcoming Operations Challenges',
+    description: 'Operations teams frequently encounter challenges that affect their productivity and morale, such as high turnover rates and low employee engagement. Additionally, businesses often struggle to collect valuable feedback from customer interactions—all of which Enzy aims to solve.',
+    stats: [
+      { value: '20%', label: 'Average industry turnover rate of 20% annually.' },
+      { value: '15%', label: 'Only 15% of employees are actively engaged with their work.' },
+      { value: '10%', label: 'Less than 10% of customer interactions result in feedback collection' }
+    ]
+  },
+  {
+    id: 'executive-leadership',
+    role: 'Executive Leadership',
+    tagline: 'Gain crystal-clear visibility into high-level performance metrics.',
+    title: 'Driving Strategic Decisions',
+    description: 'Executives need clear, actionable insights without drowning in raw data. Enzy provides high-level dashboards and predictive analytics to steer the organization with absolute confidence.',
+    stats: [
+      { value: '360°', label: 'Comprehensive view of organizational health' },
+      { value: 'Live', label: 'Real-time access to critical performance metrics' },
+      { value: '50%', label: 'Faster strategic alignment across departments' }
+    ]
+  }
+];
+
+export function Solutions() {
+  const location = useLocation();
+  const { isLightMode } = useTheme();
+  const [activeId, setActiveId] = useState(SOLUTIONS_DATA[0].id);
+
+  useEffect(() => {
+    if (location.hash) {
+      const hashId = location.hash.replace('#', '');
+      if (SOLUTIONS_DATA.some(s => s.id === hashId)) {
+        setActiveId(hashId);
+        // Slight scroll adjustment if navigating from another page to ensure they see it
+        const el = document.getElementById('solutions-interactive');
+        if (el) {
+          setTimeout(() => {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 100);
+        }
+      }
+    }
+  }, [location.hash]);
+
+  const activeData = SOLUTIONS_DATA.find(s => s.id === activeId) || SOLUTIONS_DATA[0];
+
+  return (
+    <>
+      <SEO {...SEO_CONFIG.solutions} />
+      <section className="relative flex flex-col items-center justify-center w-full px-4 pt-32 pb-24 max-w-7xl mx-auto z-20 min-h-screen">
+      
+      {/* Header */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="flex flex-col items-center w-full mb-16 md:mb-24"
+      >
+        <div className={`px-5 py-2 rounded-full border backdrop-blur-sm text-xs font-bold tracking-[0.2em] uppercase mb-8 transition-colors duration-500 ${isLightMode ? 'border-black/10 bg-black/5 text-black/60' : 'border-white/10 bg-white/5 text-white/60'}`}>
+          Platform Adaptability
+        </div>
+        <h1 className={`font-['IvyOra_Text'] font-medium text-5xl md:text-7xl lg:text-[100px] leading-[0.9] tracking-tighter text-center max-w-4xl transition-colors duration-500 ${isLightMode ? 'text-black' : 'text-[#f5f7fa]'}`}>
+          Tailored <span className="text-[#19ad7d]">Solutions</span>
+        </h1>
+        <p className={`font-['Inter'] text-base md:text-lg mt-8 max-w-2xl text-center leading-relaxed transition-colors duration-500 ${isLightMode ? 'text-black/60' : 'text-white/50'}`}>
+          Explore how Enzy adapts to meet the specific needs of your role or industry. Powerful capabilities engineered for your precise workflow.
+        </p>
+      </motion.div>
+
+      {/* Interactive Solutions By Role Section */}
+      <div id="solutions-interactive" className="w-full flex flex-col lg:flex-row gap-6 md:gap-10">
+        
+        {/* Left Column: Navigation Cards */}
+        <div className="w-full lg:w-[35%] flex flex-col gap-4">
+          <div className={`uppercase tracking-[0.2em] text-[12px] font-bold mb-4 border-b pb-4 pl-2 transition-colors duration-500 ${isLightMode ? 'text-black/40 border-black/10' : 'text-white/40 border-white/10'}`}>
+            Solutions By Role
+          </div>
+          
+          <div className="flex flex-col gap-3">
+            {SOLUTIONS_DATA.map((solution) => {
+              const isActive = activeId === solution.id;
+              
+              return (
+                <button
+                  key={solution.id}
+                  onClick={() => setActiveId(solution.id)}
+                  className={`group relative text-left w-full p-6 rounded-2xl transition-all duration-500 overflow-hidden backdrop-blur-xl ${
+                    isActive 
+                      ? isLightMode 
+                        ? 'bg-[#19ad7d]/10 border border-[#19ad7d]/40 shadow-[0_8px_32px_rgba(25,173,125,0.15)]'
+                        : 'bg-[linear-gradient(189.6deg,rgba(25,173,125,0.15)_25.1%,rgba(20,144,103,0.05)_64.2%)] border border-[#19ad7d]/40 shadow-[0_8px_32px_rgba(25,173,125,0.15)]' 
+                      : isLightMode
+                        ? 'bg-black/5 border border-black/10 hover:border-black/30 hover:bg-black/10'
+                        : 'bg-[rgba(255,255,255,0.03)] border border-white/10 hover:border-white/30 hover:bg-[rgba(255,255,255,0.08)]'
+                  }`}
+                >
+                  {/* Subtle active glow */}
+                  {isActive && (
+                    <div className="absolute inset-0 bg-[#19ad7d]/10 blur-xl rounded-2xl pointer-events-none" />
+                  )}
+                  
+                  <div className="relative z-10 flex flex-col">
+                    <div className="flex items-center justify-between">
+                      <span className={`font-['Inter'] text-[18px] md:text-[20px] font-semibold transition-colors duration-300 ${isActive ? 'text-[#19ad7d]' : isLightMode ? 'text-black group-hover:text-black/80' : 'text-white group-hover:text-white/90'}`}>
+                        {solution.role}
+                      </span>
+                      <ArrowRight 
+                        size={20} 
+                        className={`transition-all duration-500 ${isActive ? 'text-[#19ad7d] translate-x-1 opacity-100' : isLightMode ? 'text-black/30 -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100' : 'text-white/30 -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100'}`} 
+                      />
+                    </div>
+                    <p className={`text-sm mt-3 transition-colors duration-300 ${isActive ? (isLightMode ? 'text-black/80' : 'text-white/80') : (isLightMode ? 'text-black/50' : 'text-white/50')}`}>
+                      {solution.tagline}
+                    </p>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Right Column: Dynamic Content Area */}
+        <div className="w-full lg:w-[65%] mt-8 lg:mt-0 flex flex-col">
+          <div className="text-transparent uppercase tracking-[0.2em] text-[12px] font-bold mb-4 border-b border-transparent pb-4 hidden lg:block select-none">
+            Spacer
+          </div>
+          
+          <div className={`relative w-full flex-1 rounded-[32px] border backdrop-blur-[32px] overflow-hidden min-h-[500px] flex items-center transition-colors duration-500 ${isLightMode ? 'border-black/10 bg-white/60 shadow-[0_16px_64px_rgba(0,0,0,0.05)]' : 'border-white/10 bg-[rgba(11,15,20,0.65)] shadow-[0_16px_64px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)]'}`}>
+            
+            {/* Background Glow */}
+            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[radial-gradient(ellipse_at_center,rgba(25,173,125,0.15)_0%,transparent_70%)] rounded-full blur-[60px] pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[radial-gradient(ellipse_at_center,rgba(25,173,125,0.05)_0%,transparent_70%)] rounded-full blur-[60px] pointer-events-none" />
+            
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeId}
+                initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                exit={{ opacity: 0, y: -20, filter: 'blur(10px)' }}
+                transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+                className="relative z-10 w-full h-full p-8 md:p-12 lg:p-16 flex flex-col justify-center"
+              >
+                <div className="flex flex-col xl:flex-row gap-10 xl:gap-16 items-start w-full">
+                  {/* Left Block: Title */}
+                  <div className="w-full xl:w-1/2">
+                    <h2 className={`font-['Inter'] text-3xl md:text-4xl lg:text-[44px] font-bold tracking-tight leading-[1.1] mb-6 transition-colors duration-500 ${isLightMode ? 'text-black' : 'text-[#f5f7fa]'}`}>
+                      {activeData.title}
+                    </h2>
+                  </div>
+                  
+                  {/* Right Block: Description */}
+                  <div className="w-full xl:w-1/2">
+                    <p className={`font-['Inter'] text-base md:text-[17px] leading-[1.7] transition-colors duration-500 ${isLightMode ? 'text-black/60' : 'text-white/60'}`}>
+                      {activeData.description}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className={`w-full h-[1px] bg-gradient-to-r from-transparent to-transparent my-12 transition-colors duration-500 ${isLightMode ? 'via-black/10' : 'via-white/10'}`} />
+
+                {/* Stats Row */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-6 w-full">
+                  {activeData.stats.map((stat, i) => (
+                    <motion.div 
+                      key={i}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2 + (i * 0.1), duration: 0.6 }}
+                      className="flex flex-col items-center md:items-start text-center md:text-left"
+                    >
+                      <span className={`font-['Inter'] text-6xl md:text-[72px] lg:text-[96px] font-bold tracking-tighter mb-4 leading-[1] bg-clip-text text-transparent bg-gradient-to-b inline-block transition-colors duration-500 ${isLightMode ? 'from-black to-black/60' : 'from-white to-white/60'}`}>
+                        {stat.value}
+                      </span>
+                      <p className={`font-['Inter'] text-[15px] font-medium leading-[1.6] max-w-[280px] transition-colors duration-500 ${isLightMode ? 'text-black/60' : 'text-white/60'}`}>
+                        {stat.label}
+                      </p>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+      </div>
+
+      {/* Solutions By Industry (Placeholder for future) */}
+      <div className="w-full mt-32 flex flex-col items-center">
+        <div className="text-white/40 uppercase tracking-[0.2em] text-[12px] font-bold mb-8">
+          Solutions By Industry
+        </div>
+        <div className="w-full max-w-4xl h-[200px] flex items-center justify-center rounded-3xl border border-dashed border-white/20 bg-[rgba(255,255,255,0.02)] backdrop-blur-md relative overflow-hidden group">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(25,173,125,0.05)_0%,transparent_100%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+          <div className="px-6 py-3 rounded-full bg-[#19ad7d]/10 border border-[#19ad7d]/20 text-[#19ad7d] text-[12px] font-bold tracking-[0.2em] uppercase shadow-[0_0_20px_rgba(25,173,125,0.1)]">
+            Coming Soon
+          </div>
+        </div>
+      </div>
+
+      </section>
+    </>
+  );
+}

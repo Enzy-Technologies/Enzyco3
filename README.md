@@ -1,1 +1,11 @@
-# Enzyco3
+
+  # Enzy.co 2.0
+
+  This is a code bundle for Enzy.co 2.0. The original project is available at https://www.figma.com/design/Zv1PuwnWYB3LaXKiadkUsu/Enzy.co-2.0.
+
+  ## Running the code
+
+  Run `npm i` to install the dependencies.
+
+  Run `npm run dev` to start the development server.
+  

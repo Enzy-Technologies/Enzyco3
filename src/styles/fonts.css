@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Reddit+Mono:wght@400;500&family=Rethink+Sans:wght@400;500;700&display=swap');
+
+/* Custom Font Imports - Hardcoded from HubSpot CDN */
+
+/* IvyOra Text - Regular (Headers) */
+@font-face {
+  font-family: 'IvyOra Text';
+  src: url('https://39823762.fs1.hubspotusercontent-na2.net/hubfs/39823762/Enzy.co/IvyOraText-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* IvyOra Text - Medium (Large Display Headers) */
+@font-face {
+  font-family: 'IvyOra Text';
+  src: url('https://39823762.fs1.hubspotusercontent-na2.net/hubfs/39823762/Enzy.co/IvyOraText-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
