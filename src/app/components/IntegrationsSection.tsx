@@ -59,7 +59,7 @@ function IntegrationPill({ url }: { url: string }) {
 
 export function IntegrationsSection() {
   return (
-    <section className="relative z-10 w-full bg-[#f5f5f5] px-4 md:px-12 lg:px-20 py-32 flex justify-center overflow-hidden">
+    <section className="relative z-10 w-full bg-[#f5f5f5] flex justify-center overflow-hidden px-[0px] py-[24px]">
       <div className="w-full max-w-[1280px] flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-8">
         
         {/* Left side: Floating logos grid */}
@@ -105,7 +105,7 @@ export function IntegrationsSection() {
         </div>
 
         {/* Right side: Header */}
-        <div className="flex flex-col items-start w-full lg:w-1/2 gap-8 lg:pl-16">
+        <div className="flex flex-col items-start w-full lg:w-1/2 gap-8 px-[16px] py-[0px]">
           <div className="flex flex-col relative w-full">
             <h2 className="font-['Inter'] text-7xl md:text-8xl lg:text-[96px] text-black tracking-[-5px] leading-none mb-2">
               Plug N'Play

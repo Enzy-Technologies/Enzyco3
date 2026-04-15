@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 type ThemeContextType = {
   isLightMode: boolean;
@@ -7,7 +7,7 @@ type ThemeContextType = {
 };
 
 const ThemeContext = createContext<ThemeContextType>({
-  isLightMode: false,
+  isLightMode: true,
   toggleTheme: () => {},
   setIsLightMode: () => {},
 });
@@ -15,17 +15,38 @@ const ThemeContext = createContext<ThemeContextType>({
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLightMode, setIsLightMode] = useState(() => {
     if (typeof window !== 'undefined') {
-      return window.location.pathname === "/";
+      // Force reset to light mode default, clearing any previously stored 'dark' preference
+      localStorage.setItem('enzy-theme', 'light');
     }
-    return false;
+    return true; // light by default
   });
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (isLightMode) {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+    }
+  }, [isLightMode]);
+
   const toggleTheme = () => {
-    setIsLightMode(prev => !prev);
+    setIsLightMode(prev => {
+      const newValue = !prev;
+      localStorage.setItem('enzy-theme', newValue ? 'light' : 'dark');
+      return newValue;
+    });
+  };
+
+  // Also wrap setIsLightMode so direct calls persist too
+  const setPersistedTheme = (value: boolean) => {
+    localStorage.setItem('enzy-theme', value ? 'light' : 'dark');
+    setIsLightMode(value);
   };
 
   return (
-    <ThemeContext.Provider value={{ isLightMode, toggleTheme, setIsLightMode }}>
+    <ThemeContext.Provider value={{ isLightMode, toggleTheme, setIsLightMode: setPersistedTheme }}>
       {children}
     </ThemeContext.Provider>
   );

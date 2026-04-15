@@ -19,6 +19,7 @@ interface AmbientParticle {
   vy: number;
   size: number;
   speed: number;
+  isGreen: boolean;
 }
 
 export function PixelCanvas() {
@@ -44,6 +45,7 @@ export function PixelCanvas() {
     x: typeof window !== "undefined" ? window.innerWidth / 2 : 0, 
     y: typeof window !== "undefined" ? window.innerHeight / 2 : 0 
   });
+  const smoothedScrollYRef = useRef(typeof window !== "undefined" ? window.scrollY : 0);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -82,6 +84,7 @@ export function PixelCanvas() {
           vy: (Math.random() - 0.5) * 0.3,
           size: Math.random() * 1.5 + 0.5,
           speed: Math.random() * 0.5 + 0.2,
+          isGreen: Math.random() > 0.8, // 20% chance to be a distinct green particle
         });
       }
     }
@@ -103,26 +106,33 @@ export function PixelCanvas() {
       const dy = smoothedMouseRef.current.y - lastMousePosRef.current.y;
       const velocity = Math.sqrt(dx * dx + dy * dy);
 
-      // LAYER 1: Draw subtle gradient glow following mouse
-      const gradient = ctx.createRadialGradient(
-        mousePosition.x,
-        mousePosition.y,
-        0,
-        mousePosition.x,
-        mousePosition.y,
-        350
-      );
-      
-      // Theme-aware gradient colors
-      gradient.addColorStop(0, isLightMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(25, 173, 125, 0.15)');
-      gradient.addColorStop(0.5, isLightMode ? 'rgba(0, 0, 0, 0.02)' : 'rgba(25, 173, 125, 0.08)');
-      gradient.addColorStop(1, isLightMode ? 'rgba(0, 0, 0, 0)' : 'rgba(25, 173, 125, 0)');
+      // Smooth scroll for parallax
+      smoothedScrollYRef.current += (window.scrollY - smoothedScrollYRef.current) * 0.05;
 
-      // Draw gradient glow as a circle around mouse
-      ctx.fillStyle = gradient;
-      ctx.beginPath();
-      ctx.arc(mousePosition.x, mousePosition.y, 350, 0, Math.PI * 2);
-      ctx.fill();
+      const isDesktop = window.innerWidth > 768;
+
+      if (isDesktop) {
+        // LAYER 1: Draw subtle gradient glow following mouse
+        const gradient = ctx.createRadialGradient(
+          mousePosition.x,
+          mousePosition.y,
+          0,
+          mousePosition.x,
+          mousePosition.y,
+          350
+        );
+        
+        // Theme-aware gradient colors
+        gradient.addColorStop(0, isLightMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)');
+        gradient.addColorStop(0.5, isLightMode ? 'rgba(0, 0, 0, 0.02)' : 'rgba(255, 255, 255, 0.02)');
+        gradient.addColorStop(1, isLightMode ? 'rgba(0, 0, 0, 0)' : 'rgba(255, 255, 255, 0)');
+
+        // Draw gradient glow as a circle around mouse
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(mousePosition.x, mousePosition.y, 350, 0, Math.PI * 2);
+        ctx.fill();
+      }
 
       // LAYER 2: Update and draw ambient particles (middle layer)
       ambientParticlesRef.current.forEach((particle) => {
@@ -143,7 +153,7 @@ export function PixelCanvas() {
         particle.vy += dyBase * 0.0001;
 
         // Attraction to mouse trail when moving
-        if (velocity > 1) {
+        if (isDesktop && velocity > 1) {
           const distToMouse = Math.sqrt(
             (particle.x - mousePosition.x) ** 2 + (particle.y - mousePosition.y) ** 2
           );
@@ -167,25 +177,55 @@ export function PixelCanvas() {
         const distToMouse = Math.sqrt(
           (particle.x - mousePosition.x) ** 2 + (particle.y - mousePosition.y) ** 2
         );
-        const nearMouse = distToMouse < 250;
+        const nearMouse = isDesktop && distToMouse < 250;
         const intensity = nearMouse ? 1 - distToMouse / 250 : 0;
 
         // Draw particle as pixel (square) instead of circle
+        // Fix for hot-reloading: ensure isGreen exists
+        if (particle.isGreen === undefined) {
+          particle.isGreen = Math.random() > 0.8;
+        }
+
+        // Special green particles are the same size as the standard particles
         const pixelSize = particle.size * 3;
-        ctx.fillStyle = isLightMode 
-          ? `rgba(0, 0, 0, ${0.15 + intensity * 0.25})`
-          : `rgba(60, 217, 163, ${0.3 + intensity * 0.4})`;
+        
+        // Parallax effect on mobile using smoothed scroll
+        const parallaxOffset = isDesktop ? 0 : smoothedScrollYRef.current * (particle.speed * 1.5);
+        const renderY = isDesktop 
+          ? particle.y 
+          : (((particle.y - parallaxOffset) % canvas.height) + canvas.height) % canvas.height;
+
+        if (particle.isGreen) {
+          // Vivid Enzy Green for the distinct particles, with a subtle glow
+          ctx.fillStyle = isLightMode 
+            ? `rgba(25, 173, 125, ${0.8 + intensity * 0.2})`
+            : `rgba(25, 173, 125, ${0.8 + intensity * 0.2})`;
+            
+          // Keep a very slight bloom/glow so they still blur slightly behind glass, but aren't blinding
+          ctx.shadowBlur = 5;
+          ctx.shadowColor = `rgba(25, 173, 125, ${isLightMode ? 0.3 : 0.5})`;
+        } else {
+          // Standard particles (Original)
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = isLightMode 
+            ? `rgba(0, 0, 0, ${0.15 + intensity * 0.25})`
+            : `rgba(255, 255, 255, ${0.15 + intensity * 0.25})`;
+        }
+
         ctx.fillRect(
           particle.x - pixelSize / 2,
-          particle.y - pixelSize / 2,
+          renderY - pixelSize / 2,
           pixelSize,
           pixelSize
         );
+        
+        // Reset shadow so it doesn't affect standard particles or trails
+        ctx.shadowBlur = 0;
       });
 
       // Add smoothed mouse position to path for uniform trail spacing
       const currentTime = Date.now();
-      if (velocity > 0.3) {
+      if (isDesktop && velocity > 0.3) {
         mousePathRef.current.push({ x: smoothedMouseRef.current.x, y: smoothedMouseRef.current.y });
         
         // Keep path limited to recent positions
@@ -195,7 +235,7 @@ export function PixelCanvas() {
       }
 
       // Add trail dots with uniform spacing using smoothed positions
-      if (velocity > 0.3 && currentTime - lastTrailAddTimeRef.current > 16) {
+      if (isDesktop && velocity > 0.3 && currentTime - lastTrailAddTimeRef.current > 16) {
         lastTrailAddTimeRef.current = currentTime;
         
         // Calculate total distance from last trail dot position
@@ -248,7 +288,7 @@ export function PixelCanvas() {
         // Draw trail pixel as square
         ctx.fillStyle = isLightMode
           ? `rgba(0, 0, 0, ${alpha * 0.5})`
-          : `rgba(60, 217, 163, ${alpha * 0.8})`;
+          : `rgba(255, 255, 255, ${alpha * 0.5})`;
         ctx.fillRect(
           dot.x - pixelSize / 2,
           dot.y - pixelSize / 2,
@@ -270,26 +310,35 @@ export function PixelCanvas() {
 
     animate();
 
+    let lastWidth = window.innerWidth;
     const handleResize = () => {
+      if (!canvas) return;
+      
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       
-      // Reinitialize ambient particles on resize
-      ambientParticlesRef.current = [];
-      const particleCount = window.innerWidth > 768 ? 500 : 250;
-      for (let i = 0; i < particleCount; i++) {
-        const x = Math.random() * canvas.width;
-        const y = Math.random() * canvas.height;
-        ambientParticlesRef.current.push({
-          x,
-          y,
-          baseX: x,
-          baseY: y,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: (Math.random() - 0.5) * 0.3,
-          size: Math.random() * 1.5 + 0.5,
-          speed: Math.random() * 0.5 + 0.2,
-        });
+      // Only reinitialize particles if width changes (e.g., orientation change)
+      // Ignoring height-only changes prevents particles from jumping/resetting
+      // when the mobile browser's address bar hides or shows during scrolling.
+      if (window.innerWidth !== lastWidth) {
+        ambientParticlesRef.current = [];
+        const particleCount = window.innerWidth > 768 ? 500 : 250;
+        for (let i = 0; i < particleCount; i++) {
+          const x = Math.random() * canvas.width;
+          const y = Math.random() * canvas.height;
+          ambientParticlesRef.current.push({
+            x,
+            y,
+            baseX: x,
+            baseY: y,
+            vx: (Math.random() - 0.5) * 0.3,
+            vy: (Math.random() - 0.5) * 0.3,
+            size: Math.random() * 1.5 + 0.5,
+            speed: Math.random() * 0.5 + 0.2,
+            isGreen: Math.random() > 0.8, // 20% chance to be a distinct green particle
+          });
+        }
+        lastWidth = window.innerWidth;
       }
     };
 

@@ -2,11 +2,13 @@ import React from "react";
 import { useLocation, Link } from "react-router";
 import { useTheme } from "./ThemeProvider";
 
+import { CTAButton } from "./CTAButton";
+
 export function Footer() {
   const location = useLocation();
   const { isLightMode } = useTheme();
 
-  const textColor = isLightMode ? 'text-[#0b0f14]' : 'text-[#f5f7fa]';
+  const textColor = isLightMode ? 'text-brand-dark' : 'text-brand-light';
   const mutedTextColor = isLightMode ? 'text-[#6f6f6f]' : 'text-[#a0aab2]';
   const borderColor = isLightMode ? 'border-black/10' : 'border-white/10';
   const glassBg = isLightMode ? 'bg-white/50' : 'bg-black/20';
@@ -22,9 +24,9 @@ export function Footer() {
         <p className={`font-['Roboto_Mono'] text-[15px] uppercase tracking-[-0.075px] text-center max-w-[600px] leading-relaxed ${mutedTextColor}`}>
           Schedule a quick call to learn how Enzy can turn your regional data into a powerful advantage.
         </p>
-        <button className="relative flex items-center justify-center px-8 py-4 mt-2 rounded-[13px] border-[0.8px] border-[rgba(255,255,255,0.9)] backdrop-blur-[8px] bg-[linear-gradient(189.6deg,rgba(25,173,125,0.85)_25.1%,rgba(20,144,103,0.85)_64.2%)] shadow-[0px_4px_12px_0px_rgba(25,173,125,0.3),inset_2px_2px_5px_0px_rgba(255,255,255,0.4)] text-[#f5f7fa] font-['Inter'] font-semibold text-[14px] transition-all hover:scale-105 active:scale-95 whitespace-nowrap w-max">
+        <CTAButton className="px-8 py-4 mt-2 font-semibold text-[14px]">
           Learn more
-        </button>
+        </CTAButton>
       </div>
 
       <div className="w-full max-w-[1500px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">

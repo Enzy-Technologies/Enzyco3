@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { motion } from "motion/react";
-import { RotateCw } from "lucide-react";
+import React, { useEffect, useState, useRef } from "react";
+import { motion, useAnimationFrame, useMotionValue, useTransform } from "motion/react";
+import { RotateCw, X } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 
@@ -60,20 +60,61 @@ function splitQuote(quote: string) {
 export function TestimonialsSection() {
   const { isLightMode } = useTheme();
   
-  // We duplicate the array to create a seamless infinite loop
-  const marqueeItems = [...testimonials, ...testimonials];
+  // We duplicate the array 4 times to ensure we have enough content to wrap seamlessly on any screen
+  const SETS = 4;
+  const marqueeItems = Array(SETS).fill(testimonials).flat();
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [contentWidth, setContentWidth] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [flippedIndex, setFlippedIndex] = useState<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const baseX = useMotionValue(0);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        // total scroll width divided by number of sets gives exact width of one set
+        setContentWidth(containerRef.current.scrollWidth / SETS);
+      }
+    };
+    
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
+
+  const x = useTransform(baseX, (v) => {
+    if (contentWidth === 0) return "0px";
+    // This creates a seamless loop by wrapping 'v' between -contentWidth and 0.
+    // When 'v' hits -contentWidth, it wraps to 0. When 'v' hits >0, it wraps to -contentWidth.
+    const wrapped = ((v % contentWidth) - contentWidth) % contentWidth;
+    return `${wrapped}px`;
+  });
+
+  useAnimationFrame((time, delta) => {
+    // Stop scrolling if a card is flipped or the user is dragging
+    if (flippedIndex !== null || isDragging) return;
+    
+    // Auto-scroll base speed (pixels per ms)
+    let moveBy = -0.05 * delta;
+    
+    // We can also pause on hover on desktop if we want
+    if (isHovered && matchMedia("(hover: hover)").matches) {
+      moveBy = 0;
+    }
+
+    baseX.set(baseX.get() + moveBy);
+  });
 
   return (
-    <section className="relative w-full py-24 md:py-32 overflow-hidden z-20">
-      {/* Styles for Marquee and Scrollbar hiding */}
+    <section className="relative w-full py-24 md:py-32 overflow-hidden z-20"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Scrollbar hiding */}
       <style dangerouslySetInnerHTML={{__html: `
-        @keyframes scroll-left {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-          animation: scroll-left 50s linear infinite;
-        }
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
@@ -100,30 +141,61 @@ export function TestimonialsSection() {
         </motion.div>
       </div>
 
-      <div className="w-full relative overflow-visible group/marquee">
-        <div className="flex w-max animate-marquee group-hover/marquee:[animation-play-state:paused] hover:[animation-play-state:paused] py-8">
+      <div className="w-full relative overflow-visible">
+        <motion.div
+          ref={containerRef}
+          className="flex w-max py-8 touch-pan-y"
+          style={{ x }}
+          // We use onPan to manually update baseX instead of Framer Motion's built-in drag
+          onPanStart={() => setIsDragging(true)}
+          onPan={(e, info) => {
+            baseX.set(baseX.get() + info.delta.x);
+          }}
+          onPanEnd={(e, info) => {
+            setIsDragging(false);
+            // Add momentum
+            const velocity = info.velocity.x;
+            if (Math.abs(velocity) > 200) {
+              const target = baseX.get() + velocity * 0.5;
+              // Animate momentum
+              import("motion/react").then(({ animate }) => {
+                animate(baseX, target, {
+                  type: "inertia",
+                  velocity: velocity,
+                  bounceStiffness: 0,
+                  bounceDamping: 0,
+                });
+              });
+            }
+          }}
+        >
           {marqueeItems.map((testimonial, idx) => {
             const { first, rest } = splitQuote(testimonial.quote);
+            const isFlipped = flippedIndex === idx;
             
             return (
               <div
                 key={`${testimonial.id}-${idx}`}
                 // The wrapper provides perspective for the 3D flip and margin for the loop math
                 className="relative shrink-0 mr-4 md:mr-6 group perspective-[1200px]"
-                tabIndex={0} // Allows tap-to-hover on mobile
               >
-                {/* The Flipper container rotates 180deg on hover */}
+                {/* The Flipper container rotates 180deg on click */}
                 <div 
-                  className="relative w-[300px] md:w-[360px] h-[460px] md:h-[500px] transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] cursor-pointer"
+                  className={`relative w-[300px] md:w-[360px] h-[460px] md:h-[500px] transition-transform duration-700 [transform-style:preserve-3d] cursor-pointer ${isFlipped ? '[transform:rotateY(180deg)]' : ''}`}
+                  onClick={() => {
+                    // Stop event propagation if we were just dragging
+                    if (isDragging) return;
+                    setFlippedIndex(isFlipped ? null : idx);
+                  }}
                 >
                   
                   {/* ================= FRONT FACE ================= */}
                   <div 
-                    className={`absolute inset-0 backface-hidden rounded-[32px] overflow-hidden border border-solid flex flex-col shadow-xl transition-all duration-300 ${
+                    className={`absolute inset-0 rounded-[32px] overflow-hidden border border-solid flex flex-col shadow-xl transition-opacity duration-300 ${
                       isLightMode 
                         ? 'bg-white border-black/10 hover:border-[#19ad7d]/30 hover:shadow-2xl' 
                         : 'bg-[#111116] border-white/5 hover:border-[#19ad7d]/30 hover:shadow-2xl hover:shadow-[#19ad7d]/5'
-                    }`}
+                    } ${isFlipped ? 'opacity-0 delay-300' : 'opacity-100 z-10 delay-100'}`}
                     style={{ WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }}
                   >
                     {/* Top Border Accents */}
@@ -219,7 +291,7 @@ export function TestimonialsSection() {
               </div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

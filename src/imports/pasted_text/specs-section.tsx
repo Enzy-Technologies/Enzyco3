@@ -4,8 +4,6 @@ import { motion } from "motion/react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { useTheme } from "./ThemeProvider";
 
-import { CTAButton } from "./CTAButton";
-
 export function SpecsSection() {
   const { isLightMode } = useTheme();
 
@@ -19,15 +17,18 @@ export function SpecsSection() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="relative max-w-[1400px] w-full mb-20 md:mb-32 aspect-[347/116] @container"
+          className="relative max-w-[1400px] w-full mb-20 md:mb-32"
+          style={{ aspectRatio: '16 / 7' }}
         >
           {/* Pill-shaped glass container */}
           <div
             className="relative overflow-hidden transition-all duration-500 w-full h-full"
             style={{
-              borderRadius: '25cqw',
-              background: 'rgba(255,255,255,0.21)',
-              boxShadow: '0 30px 80px rgba(0, 0, 0, 0.8)',
+              borderRadius: '392px',
+              background: 'rgba(11, 15, 20, 0.4)',
+              backdropFilter: 'blur(40px)',
+              border: '1px solid rgba(25, 173, 125, 0.15)',
+              boxShadow: '0 30px 80px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
             }}
           >
             {/* Inner gradient glow */}
@@ -64,10 +65,10 @@ export function SpecsSection() {
             />
 
             {/* Left hand image inside pill */}
-            <div className="absolute h-[96.79%] left-[-0.75%] top-[7.2%] w-[31.57%] pointer-events-none z-10">
+            <div className="absolute h-[70%] left-0 bottom-0 w-[32%] pointer-events-none z-10">
               <ImageWithFallback 
                 alt="Left Hand" 
-                className="absolute h-full w-auto object-contain object-top left-0" 
+                className="absolute h-full w-auto object-contain object-bottom-left" 
                 src="https://39823762.fs1.hubspotusercontent-na2.net/hubfs/39823762/Enzy.co/Untitled-2%201.png"
                 style={{
                   filter: 'drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5))',
@@ -76,10 +77,10 @@ export function SpecsSection() {
             </div>
 
             {/* Right hand image inside pill */}
-            <div className="absolute h-[96.79%] right-[-2.3%] top-[3%] w-[31.3%] pointer-events-none z-10">
+            <div className="absolute h-[70%] right-0 bottom-0 w-[32%] pointer-events-none z-10">
               <ImageWithFallback 
                 alt="Right Hand" 
-                className="absolute h-full w-auto object-contain object-top right-0" 
+                className="absolute h-full w-auto object-contain object-bottom-right right-0" 
                 src="https://39823762.fs1.hubspotusercontent-na2.net/hubfs/39823762/Enzy.co/Untitled-2%201-1.png"
                 style={{
                   filter: 'drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5))',
@@ -88,58 +89,49 @@ export function SpecsSection() {
             </div>
 
             {/* Content container - centered */}
-            <div className="absolute inset-0 z-20 pointer-events-none">
+            <div className="relative z-20 flex flex-col items-center justify-center h-full px-8 md:px-20 py-12 md:py-16">
               {/* Quote */}
               <motion.div
-                initial={{ opacity: 0, y: "10cqw" }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="absolute left-1/2 -translate-x-1/2 text-center whitespace-nowrap"
-                style={{
-                  top: '40%',
-                }}
+                className="text-center max-w-3xl"
               >
-                <div 
-                  className="text-[#f5f7fa]"
-                  style={{ 
-                    fontFamily: "'IvyOra_Text', serif",
-                    fontSize: '3.03cqw',
-                    lineHeight: '3.79cqw',
-                    letterSpacing: '-0.19cqw'
-                  }}
+                <h2 
+                  className="text-3xl md:text-4xl lg:text-[56px] font-normal leading-tight md:leading-[70px] tracking-[-0.0625em] mb-6 text-[#f5f7fa]"
+                  style={{ fontFamily: "'IvyOra_Text', serif" }}
                 >
-                  <p className="mb-0">“Makes other platforms look</p>
-                  <p className="mb-0">elementary. It really stands out.”</p>
-                </div>
+                  "Makes other platforms<br />look elementary. It really stands out."
+                </h2>
+              </motion.div>
+
+              {/* Attribution */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                className="mb-8"
+              >
+                <p className="text-base md:text-[18px] leading-[26px] text-[#a3adb8]">
+                  Code Mangeltron, CEO of All
+                </p>
               </motion.div>
 
               {/* CTA Button with gradient border */}
               <motion.div
-                initial={{ opacity: 0, y: "5cqw" }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.6, duration: 0.6 }}
-                className="absolute left-1/2 -translate-x-1/2 pointer-events-auto cursor-pointer"
-                style={{
-                  top: '77.6%',
-                  width: '7.12cqw',
-                  height: '2.74cqw'
-                }}
-                onClick={() => console.log('View More clicked')}
               >
-                <div className="relative w-full h-full rounded-[0.76cqw] overflow-hidden group">
-                  <div 
-                    className="absolute inset-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-80" 
-                    style={{ backgroundImage: "linear-gradient(189.625deg, rgba(25, 173, 125, 0.39) 25.113%, rgba(20, 144, 103, 0.39) 64.165%)" }} 
-                  />
-                  <div className="absolute inset-0 border-[0.05cqw] border-[rgba(255,255,255,0.76)] border-solid rounded-[inherit] shadow-[0_0.19cqw_0.19cqw_0_rgba(0,0,0,0.25)] pointer-events-none" />
-                  <p className="absolute inset-0 flex items-center justify-center font-['Inter'] font-medium text-[#f5f7fa] whitespace-nowrap transition-transform duration-300 group-hover:scale-105"
-                     style={{ fontSize: '0.76cqw' }}>
-                    View More
-                  </p>
-                  <div className="absolute inset-0 rounded-[inherit] shadow-[inset_0.14cqw_0.14cqw_0.28cqw_0_rgba(255,255,255,0.25)] pointer-events-none" />
-                </div>
+                <button
+                  className="relative flex items-center justify-center px-6 py-3 rounded-[13px] border-[0.8px] border-[rgba(255,255,255,0.76)] backdrop-blur-[2px] bg-[linear-gradient(189.6deg,rgba(25,173,125,0.39)_25.1%,rgba(20,144,103,0.39)_64.2%)] shadow-[0px_3px_3px_0px_rgba(0,0,0,0.25),inset_2px_2px_5px_0px_rgba(255,255,255,0.25)] text-[#f5f7fa] font-['Inter'] font-medium text-[13px] transition-opacity hover:opacity-90 whitespace-nowrap"
+                  onClick={() => console.log('View More clicked')}
+                >
+                  View More
+                </button>
               </motion.div>
             </div>
           </div>
@@ -155,36 +147,34 @@ export function SpecsSection() {
         </motion.div>
 
         {/* Header content */}
-        <div className="flex flex-col items-center w-full max-w-[800px] gap-6 md:gap-8 mb-16 md:mb-20">
-          <h2 className="font-['Roboto_Mono'] text-[#19ad7d] text-xs md:text-sm uppercase tracking-[0.2em] text-center">
+        <div className="flex flex-col items-center w-full max-w-[800px] gap-8 mb-20">
+          <h2 className="font-['Roboto_Mono'] text-[#19ad7d] text-xs uppercase tracking-widest text-center">
             Specs
           </h2>
-          <h3 className={`font-['Inter'] font-bold text-4xl sm:text-5xl md:text-[60px] tracking-[-2px] md:tracking-[-3px] leading-[1.1] md:leading-[0.9] text-center ${isLightMode ? 'text-[#0b0f14]' : 'text-[#f5f7fa]'}`}>
+          <h3 className={`font-['Inter'] font-bold text-5xl md:text-[60px] tracking-[-3px] leading-[0.9] text-center ${isLightMode ? 'text-[#0b0f14]' : 'text-[#f5f7fa]'}`}>
             Why Choose Enzy?
           </h3>
-          <p className={`font-['Roboto_Mono'] text-[13px] md:text-[15px] uppercase tracking-[-0.075px] text-center leading-relaxed max-w-[600px] ${isLightMode ? 'text-black/60' : 'text-white/60'}`}>
+          <p className="font-['Roboto_Mono'] text-[#6f6f6f] text-[15px] uppercase tracking-[-0.075px] text-center leading-relaxed max-w-[600px]">
             Not just another sales tool. Enzy is built for daily use — real behavior, real competition, real results.
           </p>
-          <div className="mt-2 md:mt-4">
-            <CTAButton href="#">
-              Discover More
-            </CTAButton>
-          </div>
+          <a href="#" className="relative flex items-center justify-center px-6 py-3 mt-4 rounded-[13px] border-[0.8px] border-[rgba(255,255,255,0.76)] backdrop-blur-[2px] bg-[linear-gradient(189.6deg,rgba(25,173,125,0.39)_25.1%,rgba(20,144,103,0.39)_64.2%)] shadow-[0px_3px_3px_0px_rgba(0,0,0,0.25),inset_2px_2px_5px_0px_rgba(255,255,255,0.25)] text-[#f5f7fa] font-['Inter'] font-medium text-[13px] transition-opacity hover:opacity-90 whitespace-nowrap w-max">
+            Discover More
+          </a>
         </div>
 
         {/* Comparison Table */}
-        <div className="w-full max-w-[700px] px-4 pb-12">
+        <div className="w-full max-w-[500px] px-4 pb-12">
           <table className="w-full" style={{ tableLayout: 'fixed', borderCollapse: 'collapse' }}>
             <colgroup>
-              <col style={{ width: '46%' }} />
-              <col style={{ width: '27%' }} />
-              <col style={{ width: '27%' }} />
+              <col style={{ width: '44%' }} />
+              <col style={{ width: '28%' }} />
+              <col style={{ width: '28%' }} />
             </colgroup>
             <thead>
               <tr className={`border-b ${isLightMode ? 'border-black/10' : 'border-white/10'}`}>
-                <th className={`pb-4 text-left font-['Inter'] font-semibold text-[12px] md:text-[13px] uppercase tracking-wider ${isLightMode ? 'text-black/40' : 'text-white/40'}`}>Feature</th>
-                <th className="pb-4 text-center font-['Inter'] font-semibold text-[12px] md:text-[13px] uppercase tracking-wider text-[#19ad7d]">Enzy</th>
-                <th className={`pb-4 text-center font-['Inter'] font-semibold text-[12px] md:text-[13px] uppercase tracking-wider ${isLightMode ? 'text-black/40' : 'text-white/40'}`}>Other Tools</th>
+                <th className={`pb-3 text-left font-['Inter'] font-semibold text-[13px] ${isLightMode ? 'text-black/50' : 'text-white/50'}`}>Feature</th>
+                <th className="pb-3 text-center font-['Inter'] font-semibold text-[13px] text-[#19ad7d]">Enzy</th>
+                <th className={`pb-3 text-center font-['Inter'] font-semibold text-[13px] ${isLightMode ? 'text-black/50' : 'text-white/50'}`}>Other Tools</th>
               </tr>
             </thead>
             <tbody>
@@ -197,14 +187,14 @@ export function SpecsSection() {
                 "System integration",
               ].map((feature, i, arr) => (
                 <tr key={i} className={i !== arr.length - 1 ? (isLightMode ? 'border-b border-black/5' : 'border-b border-white/5') : ''}>
-                  <td className={`py-[20px] md:py-[24px] font-['Inter'] font-medium text-[15px] md:text-[17px] leading-snug ${isLightMode ? 'text-[#0b0f14]' : 'text-white'}`}>
+                  <td className={`py-[18px] font-['Inter'] font-semibold text-[16px] leading-snug ${isLightMode ? 'text-[#1a202c]' : 'text-white'}`}>
                     {feature}
                   </td>
-                  <td className="py-[20px] md:py-[24px] text-center">
-                    <Check size={22} strokeWidth={3} className="text-[#19ad7d] inline-block drop-shadow-[0_0_8px_rgba(25,173,125,0.4)]" />
+                  <td className="py-[18px] text-center">
+                    <Check size={22} strokeWidth={2.5} className="text-[#19ad7d] inline-block" />
                   </td>
-                  <td className="py-[20px] md:py-[24px] text-center">
-                    <X size={18} strokeWidth={2.5} className={`inline-block ${isLightMode ? 'text-black/20' : 'text-white/20'}`} />
+                  <td className="py-[18px] text-center">
+                    <X size={18} strokeWidth={2} className={`inline-block ${isLightMode ? 'text-black/40' : 'text-white/40'}`} />
                   </td>
                 </tr>
               ))}
