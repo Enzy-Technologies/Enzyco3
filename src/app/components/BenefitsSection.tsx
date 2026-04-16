@@ -5,11 +5,13 @@ export function BenefitsSection() {
   const { isLightMode } = useTheme();
 
   return (
-    <section className={`relative z-10 w-full flex flex-col items-t ${isLightMode ? 'border-black/10' : 'border-white/10'} px-[16px] py-[24px]`}>
-      <div className="w-full max-w-[1280px] flex flex-col gap-12 lg:gap-16">
+    <section
+      className={`relative z-10 w-full flex flex-col items-center ${isLightMode ? "border-black/10" : "border-white/10"} px-[16px] py-[24px]`}
+    >
+      <div className="w-full max-w-[1280px] mx-auto flex flex-col gap-12 lg:gap-16">
         
         {/* Header */}
-        <div className="flex flex-col gap-6 max-w-[800px]">
+        <div className="flex flex-col gap-6 max-w-[800px] mx-auto items-center text-center">
           <h2 className="font-['Roboto_Mono'] text-[#19ad7d] text-xs uppercase tracking-widest">
             Benefits
           </h2>
