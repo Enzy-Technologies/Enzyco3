@@ -1,6 +1,8 @@
+"use client";
+
 import React, { useState, useEffect } from 'react';
 import { MainNavigation } from "./MainNavigation";
-import { Link, useLocation } from "react-router";
+import Link from "next/link";
 import { useTheme } from "./ThemeProvider";
 import { Sun, Moon } from "lucide-react";
 
@@ -8,7 +10,6 @@ import { CTAButton } from "./CTAButton";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const location = useLocation();
   const { isLightMode, toggleTheme } = useTheme();
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export function Header() {
         }`}
       />
       <div className="relative flex items-center justify-between w-full px-4 max-w-7xl mx-auto">
-        <Link to="/" className="z-50 relative transition-transform duration-300 hover:scale-105 flex items-center">
+        <Link href="/" className="z-50 relative transition-transform duration-300 hover:scale-105 flex items-center">
           <img 
             src="https://39823762.fs1.hubspotusercontent-na2.net/hubfs/39823762/Enzy.co/Enzy_Logo_2026_Wordmark.svg" 
             alt="Enzy Logo" 

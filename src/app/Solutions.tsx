@@ -1,10 +1,9 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { useLocation } from "react-router";
 import { useTheme } from "./components/ThemeProvider";
-import { SEO } from "./components/SEO";
-import { SEO_CONFIG } from "./utils/seo-config";
 
 const SOLUTIONS_DATA = [
   {
@@ -46,31 +45,35 @@ const SOLUTIONS_DATA = [
 ];
 
 export function Solutions() {
-  const location = useLocation();
   const { isLightMode } = useTheme();
   const [activeId, setActiveId] = useState(SOLUTIONS_DATA[0].id);
 
   useEffect(() => {
-    if (location.hash) {
-      const hashId = location.hash.replace('#', '');
-      if (SOLUTIONS_DATA.some(s => s.id === hashId)) {
-        setActiveId(hashId);
-        // Slight scroll adjustment if navigating from another page to ensure they see it
-        const el = document.getElementById('solutions-interactive');
-        if (el) {
-          setTimeout(() => {
-            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }, 100);
-        }
-      }
-    }
-  }, [location.hash]);
+    const handleHash = () => {
+      const hash = window.location.hash;
+      if (!hash) return;
+
+      const hashId = hash.replace("#", "");
+      if (!SOLUTIONS_DATA.some((s) => s.id === hashId)) return;
+
+      setActiveId(hashId);
+      const el = document.getElementById("solutions-interactive");
+      if (!el) return;
+
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 100);
+    };
+
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
 
   const activeData = SOLUTIONS_DATA.find(s => s.id === activeId) || SOLUTIONS_DATA[0];
 
   return (
     <>
-      <SEO {...SEO_CONFIG.solutions} />
       <section className="relative flex flex-col items-center justify-center w-full px-4 pt-32 pb-24 max-w-7xl mx-auto z-20 min-h-screen">
       
       {/* Header */}

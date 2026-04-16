@@ -1,7 +1,7 @@
+"use client";
+
 import React, { Suspense, lazy } from "react";
 import { HeroSection } from "./components/HeroSection";
-import { SEO } from "./components/SEO";
-import { SEO_CONFIG } from "./utils/seo-config";
 
 // Lazy load below-the-fold components
 const HowItWorksSection = lazy(() => import("./components/HowItWorksSection").then(module => ({ default: module.HowItWorksSection })));
@@ -18,7 +18,6 @@ const SectionFallback = () => <div className="min-h-[400px] w-full animate-pulse
 export function Home() {
   return (
     <>
-      <SEO {...SEO_CONFIG.home} />
       <HeroSection />
       <Suspense fallback={<SectionFallback />}>
         <HowItWorksSection />

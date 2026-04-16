@@ -1,5 +1,7 @@
+"use client";
+
 import React from "react";
-import { Link } from "react-router";
+import Link from "next/link";
 
 interface CTAButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   href?: string;
@@ -21,7 +23,7 @@ export function CTAButton({ href, className = "", children, ...props }: CTAButto
     }
     // Internal routing
     return (
-      <Link to={href} className={`${baseClasses} ${className}`}>
+      <Link href={href} className={`${baseClasses} ${className}`}>
         {children}
       </Link>
     );

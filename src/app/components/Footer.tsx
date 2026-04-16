@@ -1,11 +1,12 @@
+"use client";
+
 import React from "react";
-import { useLocation, Link } from "react-router";
+import Link from "next/link";
 import { useTheme } from "./ThemeProvider";
 
 import { CTAButton } from "./CTAButton";
 
 export function Footer() {
-  const location = useLocation();
   const { isLightMode } = useTheme();
 
   const textColor = isLightMode ? 'text-brand-dark' : 'text-brand-light';
@@ -32,7 +33,7 @@ export function Footer() {
       <div className="w-full max-w-[1500px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
         {/* Brand & Address */}
         <div className="flex flex-col gap-6">
-          <Link to="/" className="block transition-transform hover:scale-105 w-fit">
+          <Link href="/" className="block transition-transform hover:scale-105 w-fit">
             <img 
               src="https://39823762.fs1.hubspotusercontent-na2.net/hubfs/39823762/Enzy.co/Enzy_Logo_2026_Wordmark.svg" 
               alt="Enzy Logo" 
@@ -52,11 +53,11 @@ export function Footer() {
           <h3 className={`font-['Roboto_Mono'] font-bold text-sm uppercase tracking-wider mb-2 ${textColor}`}>
             Navigation
           </h3>
-          <Link to="/" className={`font-['Inter'] text-sm ${mutedTextColor} hover:text-[#19ad7d] transition-colors w-fit`}>Home</Link>
-          <Link to="/features" className={`font-['Inter'] text-sm ${mutedTextColor} hover:text-[#19ad7d] transition-colors w-fit`}>Features</Link>
-          <Link to="/solutions" className={`font-['Inter'] text-sm ${mutedTextColor} hover:text-[#19ad7d] transition-colors w-fit`}>Solutions</Link>
-          <Link to="/resources" className={`font-['Inter'] text-sm ${mutedTextColor} hover:text-[#19ad7d] transition-colors w-fit`}>Resources</Link>
-          <Link to="/about" className={`font-['Inter'] text-sm ${mutedTextColor} hover:text-[#19ad7d] transition-colors w-fit`}>About Us</Link>
+          <Link href="/" className={`font-['Inter'] text-sm ${mutedTextColor} hover:text-[#19ad7d] transition-colors w-fit`}>Home</Link>
+          <Link href="/features" className={`font-['Inter'] text-sm ${mutedTextColor} hover:text-[#19ad7d] transition-colors w-fit`}>Features</Link>
+          <Link href="/solutions" className={`font-['Inter'] text-sm ${mutedTextColor} hover:text-[#19ad7d] transition-colors w-fit`}>Solutions</Link>
+          <Link href="/resources" className={`font-['Inter'] text-sm ${mutedTextColor} hover:text-[#19ad7d] transition-colors w-fit`}>Resources</Link>
+          <Link href="/about" className={`font-['Inter'] text-sm ${mutedTextColor} hover:text-[#19ad7d] transition-colors w-fit`}>About Us</Link>
         </div>
 
         {/* Legal */}
@@ -64,8 +65,8 @@ export function Footer() {
           <h3 className={`font-['Roboto_Mono'] font-bold text-sm uppercase tracking-wider mb-2 ${textColor}`}>
             Legal
           </h3>
-          <Link to="/terms" className={`font-['Inter'] text-sm ${mutedTextColor} hover:text-[#19ad7d] transition-colors w-fit`}>Terms and Conditions</Link>
-          <Link to="/privacy" className={`font-['Inter'] text-sm ${mutedTextColor} hover:text-[#19ad7d] transition-colors w-fit`}>Privacy Policy</Link>
+          <Link href="/terms" className={`font-['Inter'] text-sm ${mutedTextColor} hover:text-[#19ad7d] transition-colors w-fit`}>Terms and Conditions</Link>
+          <Link href="/privacy" className={`font-['Inter'] text-sm ${mutedTextColor} hover:text-[#19ad7d] transition-colors w-fit`}>Privacy Policy</Link>
         </div>
 
         {/* Contact */}

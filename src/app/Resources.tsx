@@ -1,17 +1,17 @@
+"use client";
+
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, ArrowRight } from "lucide-react";
 import { useTheme } from "./components/ThemeProvider";
-import { SEO } from "./components/SEO";
-import { SEO_CONFIG } from "./utils/seo-config";
 
-import imgInsightsBg from "figma:asset/fe07aab853fa3e439a789e527dbd50601d1228f8.png";
-import imgPlaybooksBg from "figma:asset/04f7043b15b6e1aecfd7c7b8261277090632e920.png";
-import imgStoriesBottom from "figma:asset/7354577476170e09a14529efd0dbdd4c33144226.png";
-import imgGuidesBg from "figma:asset/9368e161f7ccef0b8630da4ed437ddeb13cde5da.png";
-import imgGuidesInner from "figma:asset/395f406f620768136203f60a62cbda607afdcb51.png";
-import imgCompareBg from "figma:asset/347ebcbc0769d19e13ff2e7e68a1dcc26a17378f.png";
-import imgCompareInner from "figma:asset/f57cbb4a1a809fb2f1f6d8dbbeb8bd24d9813e93.png";
+import imgInsightsBg from "@/assets/fe07aab853fa3e439a789e527dbd50601d1228f8.png";
+import imgPlaybooksBg from "@/assets/04f7043b15b6e1aecfd7c7b8261277090632e920.png";
+import imgStoriesBottom from "@/assets/7354577476170e09a14529efd0dbdd4c33144226.png";
+import imgGuidesBg from "@/assets/9368e161f7ccef0b8630da4ed437ddeb13cde5da.png";
+import imgGuidesInner from "@/assets/395f406f620768136203f60a62cbda607afdcb51.png";
+import imgCompareBg from "@/assets/347ebcbc0769d19e13ff2e7e68a1dcc26a17378f.png";
+import imgCompareInner from "@/assets/f57cbb4a1a809fb2f1f6d8dbbeb8bd24d9813e93.png";
 
 const LEARN_DATA = [
   {
@@ -19,7 +19,7 @@ const LEARN_DATA = [
     title: "Insights",
     desc: "Perspectives on sales performance and momentum.",
     colSpan: "col-span-12",
-    bgImage: imgInsightsBg,
+    bgImage: imgInsightsBg.src,
     textColor: "text-black",
     descColor: "text-black/70",
     layoutStyle: "tile1",
@@ -30,7 +30,7 @@ const LEARN_DATA = [
     title: "Playbooks",
     desc: "Proven systems to drive behavior and results.",
     colSpan: "col-span-12 lg:col-span-7",
-    bgImage: imgPlaybooksBg,
+    bgImage: imgPlaybooksBg.src,
     textColor: "text-black",
     descColor: "text-black/70",
     layoutStyle: "tile2",
@@ -42,7 +42,7 @@ const LEARN_DATA = [
     desc: "How teams are building momentum with Enzy.",
     colSpan: "col-span-12 lg:col-span-5",
     bgImage: null,
-    bottomImage: imgStoriesBottom,
+    bottomImage: imgStoriesBottom.src,
     textColor: "text-white",
     descColor: "text-white/70",
     customBg: "bg-[#111113]", // Used a solid dark color to match Figma style
@@ -54,8 +54,8 @@ const LEARN_DATA = [
     title: "Guides",
     desc: "Deep dives into performance systems and workflows.",
     colSpan: "col-span-12 lg:col-span-6",
-    bgImage: imgGuidesBg,
-    innerImage: imgGuidesInner,
+    bgImage: imgGuidesBg.src,
+    innerImage: imgGuidesInner.src,
     textColor: "text-white",
     descColor: "text-white/80",
     layoutStyle: "tile4",
@@ -66,8 +66,8 @@ const LEARN_DATA = [
     title: "Compare",
     desc: "See how Enzy stacks up.",
     colSpan: "col-span-12 lg:col-span-6",
-    bgImage: imgCompareBg,
-    innerImage: imgCompareInner,
+    bgImage: imgCompareBg.src,
+    innerImage: imgCompareInner.src,
     textColor: "text-black",
     descColor: "text-black/70",
     layoutStyle: "tile5",
@@ -131,7 +131,6 @@ export function Resources() {
 
   return (
     <>
-      <SEO {...SEO_CONFIG.resources} />
       <section className="relative flex flex-col items-center justify-start w-full px-4 pt-32 pb-24 min-h-screen z-20">
         <div className="max-w-7xl mx-auto w-full mb-16">
         <h1 className={`font-['IvyOra_Text'] font-medium text-5xl md:text-7xl leading-tight tracking-tighter text-center transition-colors duration-500 ${isLightMode ? 'text-black' : 'text-[#f5f7fa]'}`}>

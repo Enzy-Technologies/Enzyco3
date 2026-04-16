@@ -1,11 +1,10 @@
+"use client";
+
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
 import { Menu, X, Layers } from "lucide-react";
-import { useLocation } from "react-router";
 import { ImageWithFallback } from "./components/figma/ImageWithFallback";
 import { useTheme } from "./components/ThemeProvider";
-import { SEO } from "./components/SEO";
-import { SEO_CONFIG } from "./utils/seo-config";
 
 const FEATURES_DATA = [
   { 
@@ -227,13 +226,14 @@ const QuickJumpMenu = () => {
 }
 
 export function Features() {
-  const location = useLocation();
   const { isLightMode } = useTheme();
 
   useEffect(() => {
-    if (location.hash) {
-      // Remove the '#' to get the id
-      const id = location.hash.replace('#', '');
+    const handleHash = () => {
+      const hash = window.location.hash;
+      if (!hash) return;
+
+      const id = hash.replace("#", "");
       const element = document.getElementById(id);
       if (element) {
         // Small delay to ensure rendering is complete
@@ -241,12 +241,15 @@ export function Features() {
           element.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }, 100);
       }
-    }
-  }, [location.hash]);
+    };
+
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
 
   return (
     <>
-      <SEO {...SEO_CONFIG.features} />
       <section className="relative flex flex-col items-center justify-center w-full px-4 pt-32 pb-16 max-w-7xl mx-auto z-20 min-h-[50vh]">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

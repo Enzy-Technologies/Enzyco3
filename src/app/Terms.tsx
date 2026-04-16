@@ -1,22 +1,13 @@
+"use client";
+
 import React from "react";
-import { Header } from "./components/Header";
-import { Footer } from "./components/Footer";
-import { SEO } from "./components/SEO";
 import { useTheme } from "./components/ThemeProvider";
 
 export function Terms() {
   const { isLightMode } = useTheme();
 
   return (
-    <div className={`min-h-screen font-['Inter'] selection:bg-[#19ad7d]/30 ${isLightMode ? 'bg-[#f8f9fa] text-[#0b0f14]' : 'bg-[#0b0f14] text-[#f5f7fa]'}`}>
-      <SEO 
-        title="Terms and Conditions - Enzy" 
-        description="Terms and conditions for Enzy Technologies, LLC." 
-        path="/terms" 
-      />
-      <Header />
-      
-      <main className="pt-32 pb-24 px-4 md:px-12 lg:px-20 max-w-4xl mx-auto">
+    <main className={`w-full pt-32 pb-24 px-4 md:px-12 lg:px-20 max-w-4xl mx-auto ${isLightMode ? 'text-[#0b0f14]' : 'text-[#f5f7fa]'}`}>
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-8 font-['Inter']">Terms and Conditions</h1>
         <div className={`prose max-w-none ${isLightMode ? 'prose-slate' : 'prose-invert'} prose-headings:font-['Inter'] prose-p:font-['Inter'] prose-a:text-[#19ad7d]`}>
           <p className="mb-4">These Terms and Conditions (“Terms”) sets forth the terms and conditions that apply to access and use of the Services of Enzy Technologies, LLC (“Provider”) by the customer set forth on an Order Form submitted to Provider (“Customer”). These Terms, together with any Order Form, SOW, and Privacy Policy constitute the “Agreement.”</p>
@@ -48,8 +39,5 @@ export function Terms() {
           </div>
         </div>
       </main>
-
-      <Footer />
-    </div>
   );
 }

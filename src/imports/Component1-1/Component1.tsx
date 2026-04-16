@@ -8,34 +8,34 @@ export default function Component() {
   return (
     <div className="relative size-full" data-name="Component 1">
       <div className="absolute h-[510px] left-[-326px] top-0 w-[380px]">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle4} />
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle4.src} />
       </div>
       <div className="absolute h-[510px] left-[1674px] top-0 w-[380px]">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle4} />
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle4.src} />
       </div>
       <div className="absolute h-[510px] left-[74px] top-0 w-[380px]">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle5} />
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle5.src} />
       </div>
       <div className="absolute h-[510px] left-[2074px] top-0 w-[380px]">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle5} />
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle5.src} />
       </div>
       <div className="absolute h-[510px] left-[474px] top-0 w-[380px]">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle6} />
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle6.src} />
       </div>
       <div className="absolute h-[510px] left-[2474px] top-0 w-[380px]">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle6} />
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle6.src} />
       </div>
       <div className="absolute h-[510px] left-[874px] top-0 w-[380px]">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle7} />
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle7.src} />
       </div>
       <div className="absolute h-[510px] left-[2874px] top-0 w-[380px]">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle7} />
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle7.src} />
       </div>
       <div className="absolute h-[510px] left-[1274px] top-0 w-[380px]">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle8} />
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle8.src} />
       </div>
       <div className="absolute h-[510px] left-[3274px] top-0 w-[380px]">
-        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle8} />
+        <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle8.src} />
       </div>
     </div>
   );

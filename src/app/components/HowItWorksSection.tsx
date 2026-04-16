@@ -1,7 +1,9 @@
+"use client";
+
 import React from "react";
-import createImg from "figma:asset/e66ef56f0b767b50b8860584a5fa19bd69be614e.png";
-import engageImg from "figma:asset/34d961d0ab311afc7564d03f49aed88b4a54a35f.png";
-import analyzeImg from "figma:asset/818a5b0370e47250af5f3233218b98f9533f97ef.png";
+import createImg from "@/assets/e66ef56f0b767b50b8860584a5fa19bd69be614e.png";
+import engageImg from "@/assets/34d961d0ab311afc7564d03f49aed88b4a54a35f.png";
+import analyzeImg from "@/assets/818a5b0370e47250af5f3233218b98f9533f97ef.png";
 
 export function HowItWorksSection() {
   return (
@@ -28,7 +30,7 @@ export function HowItWorksSection() {
             </p>
           </div>
           <div className="w-full lg:w-[834px] lg:ml-auto h-[212px] bg-white/40 border-2 border-black/60 backdrop-blur-xl rounded-full overflow-hidden relative group-hover:border-black group-hover:bg-white/50 transition-colors duration-500 shadow-[inset_0_4px_24px_rgba(255,255,255,0.7)]">
-            <img src={createImg} alt="Create Dashboard" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] max-w-none opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
+            <img src={createImg.src} alt="Create Dashboard" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] max-w-none opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
           </div>
         </div>
 
@@ -47,7 +49,7 @@ export function HowItWorksSection() {
             </p>
           </div>
           <div className="w-full lg:w-[834px] lg:ml-auto h-[212px] bg-white/40 border-2 border-black/60 backdrop-blur-xl rounded-full overflow-hidden relative group-hover:border-black group-hover:bg-white/50 transition-colors duration-500 shadow-[inset_0_4px_24px_rgba(255,255,255,0.7)]">
-            <img src={engageImg} alt="Engage Audience" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] max-w-none opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
+            <img src={engageImg.src} alt="Engage Audience" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] max-w-none opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
           </div>
         </div>
 
@@ -66,7 +68,7 @@ export function HowItWorksSection() {
             </p>
           </div>
           <div className="w-full lg:w-[834px] lg:ml-auto h-[212px] bg-white/40 border-2 border-black/60 backdrop-blur-xl rounded-full overflow-hidden relative group-hover:border-black group-hover:bg-white/50 transition-colors duration-500 shadow-[inset_0_4px_24px_rgba(255,255,255,0.7)]">
-            <img src={analyzeImg} alt="Analyze Results" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] max-w-none opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
+            <img src={analyzeImg.src} alt="Analyze Results" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] max-w-none opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
           </div>
         </div>
 

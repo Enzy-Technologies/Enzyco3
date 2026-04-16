@@ -1,11 +1,11 @@
+"use client";
+
 import React from "react";
 import { ArrowRight, BarChart2, Zap, Users, ShieldCheck, Trophy, Target } from "lucide-react";
 import { motion } from "motion/react";
-import { Link } from "react-router";
+import Link from "next/link";
 import { useTheme } from "./components/ThemeProvider";
 import { TestimonialsSection } from "./components/TestimonialsSection";
-import { SEO } from "./components/SEO";
-import { SEO_CONFIG } from "./utils/seo-config";
 
 // Helper for smooth scroll fade-in sections
 const FadeInSection = ({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) => (
@@ -25,7 +25,6 @@ export function About() {
 
   return (
     <>
-      <SEO {...SEO_CONFIG.about} />
       <div className="relative w-full flex flex-col items-center justify-start pt-32 pb-40 overflow-hidden min-h-screen z-20 transition-colors duration-500">
       
       {/* Background Glows */}
@@ -202,8 +201,8 @@ export function About() {
             <p className={`font-['Inter'] text-lg max-w-xl mx-auto mb-10 relative z-10 leading-relaxed transition-colors duration-500 ${isLightMode ? 'text-black/70' : 'text-white/70'}`}>
               Stop paying for software that slows you down. Let's talk about what Enzy can do for your numbers this quarter.
             </p>
-            <Link 
-              to="/solutions"
+            <Link
+              href="/solutions"
               className={`relative z-10 flex items-center gap-3 px-8 py-4 rounded-full font-['Inter'] font-bold text-sm uppercase tracking-widest hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_0_32px_rgba(25,255,255,0.2)] ${isLightMode ? 'bg-black text-white' : 'bg-white text-black'}`}
             >
               Book a Strategy Call <ArrowRight size={18} />

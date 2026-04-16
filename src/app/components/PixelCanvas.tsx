@@ -1,5 +1,6 @@
+"use client";
+
 import React, { useEffect, useRef } from "react";
-import { useLocation } from "react-router";
 import { useTheme } from "./ThemeProvider";
 
 interface TrailDot {

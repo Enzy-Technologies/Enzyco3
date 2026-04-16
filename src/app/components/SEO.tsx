@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useLocation } from "react-router";
 
 interface SEOProps {
   title?: string;
@@ -23,12 +22,14 @@ export function SEO({
   type = "website",
   canonical
 }: SEOProps) {
-  const location = useLocation();
-
   const pageTitle = title || DEFAULT_SEO.title;
   const pageDescription = description || DEFAULT_SEO.description;
   const pageImage = image || DEFAULT_SEO.image;
-  const pageUrl = canonical || `${DEFAULT_SEO.url}${location.pathname}`;
+  const pageUrl =
+    canonical ||
+    (typeof window !== "undefined"
+      ? `${DEFAULT_SEO.url}${window.location.pathname}`
+      : DEFAULT_SEO.url);
 
   useEffect(() => {
     // Update document title

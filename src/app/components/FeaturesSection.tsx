@@ -9,11 +9,11 @@ import imgRectangle7 from "../../imports/Component1-1/505761bb7aaea91aab56d5260b
 import imgRectangle8 from "../../imports/Component1-1/1ce6b06bd6a76bcd69678d1034fb45721f60c106.png";
 
 const featuresImages = [
-  imgRectangle4,
-  imgRectangle5,
-  imgRectangle6,
-  imgRectangle7,
-  imgRectangle8
+  imgRectangle4.src,
+  imgRectangle5.src,
+  imgRectangle6.src,
+  imgRectangle7.src,
+  imgRectangle8.src,
 ];
 
 const cardsData = [

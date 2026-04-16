@@ -1,7 +1,9 @@
+"use client";
+
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown, ArrowRight, ArrowUpRight, Menu, X, Sun, Moon } from 'lucide-react';
-import { Link, useLocation } from 'react-router';
+import Link from "next/link";
 
 import { useTheme } from './ThemeProvider';
 import { CTAButton } from './CTAButton';
@@ -83,6 +85,8 @@ const LEARN_ITEMS = [
   }
 ];
 
+const easeOutExpo = [0.23, 1, 0.32, 1] as const;
+
 const dropInVariants = {
   hidden: { opacity: 0, y: -15, scale: 0.98, filter: 'blur(10px)' },
   visible: { 
@@ -92,7 +96,7 @@ const dropInVariants = {
     filter: 'blur(0px)',
     transition: { 
       duration: 0.5, 
-      ease: [0.23, 1, 0.32, 1],
+      ease: easeOutExpo,
       staggerChildren: 0.04, 
       delayChildren: 0.05 
     }
@@ -102,13 +106,13 @@ const dropInVariants = {
     y: -10, 
     scale: 0.98, 
     filter: 'blur(5px)',
-    transition: { duration: 0.3, ease: "easeIn" }
+    transition: { duration: 0.3, ease: easeOutExpo }
   }
 };
 
 const itemVariants = {
   hidden: { opacity: 0, x: -10 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } }
+  visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: easeOutExpo } }
 };
 
 export function MainNavigation() {
@@ -151,7 +155,7 @@ export function MainNavigation() {
         <div className={`flex gap-8 px-4 py-3.5 font-['Inter'] text-[12px] uppercase tracking-[0.15em] font-medium relative ${isLightMode ? 'text-black' : 'text-[#f5f7fa]'}`}>
           {MENU_ITEMS.map((item) => (
             <Link 
-              to={item.path}
+              href={item.path}
               key={item.id}
               onClick={() => setActiveDropdown(null)}
               onMouseEnter={() => handleMouseEnter(item.id)}
@@ -167,7 +171,7 @@ export function MainNavigation() {
               {item.id !== 'about' && (
                 <motion.div
                   animate={{ rotate: activeDropdown === item.id ? 180 : 0 }}
-                  transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+                  transition={{ duration: 0.4, ease: easeOutExpo }}
                 >
                   <ChevronDown size={14} className={isLightMode ? 'opacity-50' : 'opacity-70'} />
                 </motion.div>
@@ -211,7 +215,7 @@ export function MainNavigation() {
                             See how Enzy drives performance in real time.
                         </h3>
                         <div className="mt-4">
-                            <Link to="/features" onClick={() => setActiveDropdown(null)} className="inline-flex items-center gap-2 text-[#19ad7d] text-xs font-bold uppercase tracking-widest hover:opacity-80 transition-opacity group">
+                            <Link href="/features" onClick={() => setActiveDropdown(null)} className="inline-flex items-center gap-2 text-[#19ad7d] text-xs font-bold uppercase tracking-widest hover:opacity-80 transition-opacity group">
                                 Explore the System <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </div>
@@ -232,7 +236,7 @@ export function MainNavigation() {
                                     {section.items.map((item, j) => (
                                         <li key={j}>
                                             <Link 
-                                                to={`/features#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                                                href={`/features#${item.toLowerCase().replace(/\s+/g, '-')}`}
                                                 onClick={() => setActiveDropdown(null)}
                                                 className={`group flex items-center justify-between px-3 py-2 -ml-3 rounded-lg border transition-all duration-300 ${isLightMode ? 'border-transparent hover:bg-black/5 hover:border-black/5' : 'border-transparent hover:bg-white/[0.06] hover:border-white/10'}`}
                                             >
@@ -256,7 +260,7 @@ export function MainNavigation() {
                             Built for the field. Engineered for growth.
                         </h3>
                         <div className="mt-4">
-                            <Link to="/solutions" onClick={() => setActiveDropdown(null)} className="inline-flex items-center gap-2 text-[#19ad7d] text-xs font-bold uppercase tracking-widest hover:opacity-80 transition-opacity group">
+                            <Link href="/solutions" onClick={() => setActiveDropdown(null)} className="inline-flex items-center gap-2 text-[#19ad7d] text-xs font-bold uppercase tracking-widest hover:opacity-80 transition-opacity group">
                                 Explore Use Cases <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" strokeWidth={2.5} />
                             </Link>
                         </div>
@@ -276,7 +280,7 @@ export function MainNavigation() {
                                 <ul className="flex flex-col gap-1.5">
                                     <li>
                                         <Link 
-                                            to={`/solutions#${uc.title.toLowerCase().replace(/\s+/g, '-')}`}
+                                            href={`/solutions#${uc.title.toLowerCase().replace(/\s+/g, '-')}`}
                                             onClick={() => setActiveDropdown(null)}
                                             className={`group flex items-center justify-between px-3 py-2 -ml-3 rounded-lg border transition-all duration-300 ${isLightMode ? 'border-transparent hover:bg-black/5 hover:border-black/5' : 'border-transparent hover:bg-white/[0.06] hover:border-white/10'}`}
                                         >
@@ -299,7 +303,7 @@ export function MainNavigation() {
                             Everything you need to build momentum and drive performance.
                         </h3>
                         <div className="mt-4">
-                            <Link to="/resources" onClick={() => setActiveDropdown(null)} className="inline-flex items-center gap-2 text-[#19ad7d] text-xs font-bold uppercase tracking-widest hover:opacity-80 transition-opacity group">
+                            <Link href="/resources" onClick={() => setActiveDropdown(null)} className="inline-flex items-center gap-2 text-[#19ad7d] text-xs font-bold uppercase tracking-widest hover:opacity-80 transition-opacity group">
                                 View All Resources <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" strokeWidth={2.5} />
                             </Link>
                         </div>
@@ -319,7 +323,7 @@ export function MainNavigation() {
                                 <ul className="flex flex-col gap-1.5">
                                     <li>
                                         <Link 
-                                            to={`/resources#${item.title.toLowerCase().replace(/\s+/g, '-')}`}
+                                            href={`/resources#${item.title.toLowerCase().replace(/\s+/g, '-')}`}
                                             onClick={() => setActiveDropdown(null)}
                                             className={`group flex items-center justify-between px-3 py-2 -ml-3 rounded-lg border transition-all duration-300 ${isLightMode ? 'border-transparent hover:bg-black/5 hover:border-black/5' : 'border-transparent hover:bg-white/[0.06] hover:border-white/10'}`}
                                         >
@@ -368,7 +372,7 @@ export function MainNavigation() {
             initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
             animate={{ opacity: 1, backdropFilter: 'blur(40px)' }}
             exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-            transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+            transition={{ duration: 0.4, ease: easeOutExpo }}
             className={`fixed inset-0 z-[55] md:hidden pointer-events-auto overflow-y-auto ${
               isLightMode 
                 ? 'bg-white/60' 
@@ -383,12 +387,12 @@ export function MainNavigation() {
                   key={item.id} 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + i * 0.05, duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+                  transition={{ delay: 0.1 + i * 0.05, duration: 0.5, ease: easeOutExpo }}
                   className={`mb-2 border-b ${isLightMode ? 'border-black/5' : 'border-white/5'}`}
                 >
                   <div className="flex items-center justify-between w-full py-6 group">
                     <Link 
-                      to={item.path}
+                      href={item.path}
                       onClick={() => setMobileMenuOpen(false)}
                       className={`font-['Inter'] text-2xl font-medium tracking-[0.1em] uppercase hover:text-[#19ad7d] active:text-[#19ad7d] transition-colors flex-1 ${
                         isLightMode ? 'text-black/90' : 'text-white/90'
@@ -422,7 +426,7 @@ export function MainNavigation() {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+                        transition={{ duration: 0.4, ease: easeOutExpo }}
                         className="overflow-hidden"
                       >
                         <div className="pb-8 pt-2">
@@ -431,7 +435,7 @@ export function MainNavigation() {
                                 <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}>
                                     <div className={`uppercase tracking-[0.2em] text-[10px] font-bold mb-2 ${isLightMode ? 'text-black/40' : 'text-white/30'}`}>Overview</div>
                                     <p className={`text-[15px] font-['Inter'] leading-snug mb-3 ${isLightMode ? 'text-black/80' : 'text-white/80'}`}>See how Enzy drives performance in real time.</p>
-                                    <Link to="/features" onClick={() => setMobileMenuOpen(false)} className="text-[#19ad7d] text-[11px] font-bold uppercase tracking-widest flex items-center gap-1.5">
+                                    <Link href="/features" onClick={() => setMobileMenuOpen(false)} className="text-[#19ad7d] text-[11px] font-bold uppercase tracking-widest flex items-center gap-1.5">
                                         View All Features <ArrowRight size={12} />
                                     </Link>
                                 </motion.div>
@@ -449,7 +453,7 @@ export function MainNavigation() {
                                         {section.items.map((subitem, k) => (
                                             <Link 
                                                 key={k}
-                                                to={`/features#${subitem.toLowerCase().replace(/\s+/g, '-')}`}
+                                                href={`/features#${subitem.toLowerCase().replace(/\s+/g, '-')}`}
                                                 onClick={() => {
                                                     setMobileMenuOpen(false);
                                                     setActiveMobileDropdown(null);
@@ -475,7 +479,7 @@ export function MainNavigation() {
                                 <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}>
                                     <div className={`uppercase tracking-[0.2em] text-[10px] font-bold mb-2 ${isLightMode ? 'text-black/40' : 'text-white/30'}`}>Overview</div>
                                     <p className={`text-[15px] font-['Inter'] leading-snug mb-3 ${isLightMode ? 'text-black/80' : 'text-white/80'}`}>Built for the field. Engineered for growth.</p>
-                                    <Link to="/solutions" onClick={() => setMobileMenuOpen(false)} className="text-[#19ad7d] text-[11px] font-bold uppercase tracking-widest flex items-center gap-1.5">
+                                    <Link href="/solutions" onClick={() => setMobileMenuOpen(false)} className="text-[#19ad7d] text-[11px] font-bold uppercase tracking-widest flex items-center gap-1.5">
                                         Explore Use Cases <ArrowRight size={12} />
                                     </Link>
                                 </motion.div>
@@ -491,7 +495,7 @@ export function MainNavigation() {
                                     <p className={`text-[13px] mb-3 leading-snug ${isLightMode ? 'text-black/50' : 'text-white/50'}`}>{uc.desc}</p>
                                     <div className="flex flex-col gap-2.5">
                                         <Link 
-                                            to={`/solutions#${uc.title.toLowerCase().replace(/\s+/g, '-')}`}
+                                            href={`/solutions#${uc.title.toLowerCase().replace(/\s+/g, '-')}`}
                                             onClick={() => {
                                                 setMobileMenuOpen(false);
                                                 setActiveMobileDropdown(null);
@@ -516,7 +520,7 @@ export function MainNavigation() {
                                 <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}>
                                     <div className={`uppercase tracking-[0.2em] text-[10px] font-bold mb-2 ${isLightMode ? 'text-black/40' : 'text-white/30'}`}>Overview</div>
                                     <p className={`text-[15px] font-['Inter'] leading-snug mb-3 ${isLightMode ? 'text-black/80' : 'text-white/80'}`}>Everything you need to build momentum and drive performance.</p>
-                                    <Link to="/resources" onClick={() => setMobileMenuOpen(false)} className="text-[#19ad7d] text-[11px] font-bold uppercase tracking-widest flex items-center gap-1.5">
+                                    <Link href="/resources" onClick={() => setMobileMenuOpen(false)} className="text-[#19ad7d] text-[11px] font-bold uppercase tracking-widest flex items-center gap-1.5">
                                         View All Resources <ArrowRight size={12} strokeWidth={2.5} />
                                     </Link>
                                 </motion.div>
@@ -532,7 +536,7 @@ export function MainNavigation() {
                                     <p className={`text-[13px] mb-3 leading-snug ${isLightMode ? 'text-black/50' : 'text-white/50'}`}>{item.desc}</p>
                                     <div className="flex flex-col gap-2.5">
                                         <Link 
-                                            to={`/resources#${item.title.toLowerCase().replace(/\s+/g, '-')}`}
+                                            href={`/resources#${item.title.toLowerCase().replace(/\s+/g, '-')}`}
                                             onClick={() => {
                                                 setMobileMenuOpen(false);
                                                 setActiveMobileDropdown(null);

@@ -1,22 +1,13 @@
+"use client";
+
 import React from "react";
-import { Header } from "./components/Header";
-import { Footer } from "./components/Footer";
-import { SEO } from "./components/SEO";
 import { useTheme } from "./components/ThemeProvider";
 
 export function Privacy() {
   const { isLightMode } = useTheme();
 
   return (
-    <div className={`min-h-screen font-['Inter'] selection:bg-[#19ad7d]/30 ${isLightMode ? 'bg-[#f8f9fa] text-[#0b0f14]' : 'bg-[#0b0f14] text-[#f5f7fa]'}`}>
-      <SEO 
-        title="Privacy Policy - Enzy" 
-        description="Privacy policy for Enzy Technologies, LLC." 
-        path="/privacy" 
-      />
-      <Header />
-      
-      <main className="pt-32 pb-24 px-4 md:px-12 lg:px-20 max-w-4xl mx-auto">
+    <main className={`w-full pt-32 pb-24 px-4 md:px-12 lg:px-20 max-w-4xl mx-auto ${isLightMode ? 'text-[#0b0f14]' : 'text-[#f5f7fa]'}`}>
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 font-['Inter']">Privacy Policy</h1>
         <p className="opacity-70 mb-8 font-['Roboto_Mono'] text-sm">Effective Date: August 09, 2024</p>
         
@@ -49,8 +40,5 @@ export function Privacy() {
           </div>
         </div>
       </main>
-
-      <Footer />
-    </div>
   );
 }
